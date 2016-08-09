@@ -1,10 +1,12 @@
 package dao
 
 import models.definitions.{CommentsTable, PostsTable, UsersTable}
-import slick.dbio.{Effect, NoStream}
+import slick.dbio.NoStream
 import slick.lifted.TableQuery
-import slick.profile.{FixedSqlAction, SqlAction, FixedSqlStreamingAction}
+import slick.profile.{FixedSqlStreamingAction, SqlAction}
 import utils.DatabaseConfig
+import scala.language.implicitConversions
+
 import scala.concurrent.Future
 
 trait BaseDao extends DatabaseConfig {

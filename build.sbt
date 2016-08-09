@@ -32,3 +32,5 @@ libraryDependencies ++= {
 }
 
 parallelExecution in Test := false
+
+scalacOptions += "-feature"
