@@ -1,11 +1,14 @@
 package utils
 
+import slick.driver.JdbcProfile
+
 trait DatabaseConfig extends Config{
-  val driver = slick.driver.PostgresDriver
+  import slick.backend.DatabaseConfig
 
-  import driver.api._
+  val slickConfig = DatabaseConfig.forConfig[JdbcProfile]("slick")
+  val driver = slickConfig.driver
 
-  def db = Database.forConfig("database")
+  def db = slickConfig.db
 
-  implicit val session: Session = db.createSession()
+  implicit val session = db.createSession()
 }
