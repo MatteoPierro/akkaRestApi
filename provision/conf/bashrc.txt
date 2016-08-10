@@ -1,0 +1,14 @@
+alias cls='clear'
+
+export JAVA_HOME=/opt/jdk1.8.0_45
+export JRE_HOME=/opt/jdk1.8.0_45/jre
+export PATH=$PATH:/opt/jdk1.8.0_45/bin:/opt/jdk1.8.0_45/jre/bin
+
+export PATH=$PATH:/home/vagrant/bin
+
+export SCALA_HOME=/home/vagrant/bin/scala-2.11.7
+export PATH=$PATH:/home/vagrant/bin/scala-2.11.7/bin
+
+export LANGUAGE=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8

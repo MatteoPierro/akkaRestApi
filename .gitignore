@@ -5,5 +5,4 @@
 target/
 project/target/*
 project/project/*
-src/main/resources/application.conf
-src/main/scala/models/NewYear.scala
+.vagrant/
