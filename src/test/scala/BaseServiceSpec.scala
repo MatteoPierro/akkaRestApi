@@ -1,15 +1,18 @@
 import dao.BaseDao
 import models.User
-
-import akka.event.{ NoLogging, LoggingAdapter }
+import akka.event.{LoggingAdapter, NoLogging}
 import akka.http.scaladsl.testkit.ScalatestRouteTest
+import mappings.JsonMappings
 import utils.MigrationConfig
 import org.scalatest._
+
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-trait BaseServiceSpec extends WordSpec with Matchers with ScalatestRouteTest with Routes with MigrationConfig with BaseDao{
+trait BaseServiceSpec extends WordSpec with Matchers with ScalatestRouteTest with JsonMappings with MigrationConfig with BaseDao{
   protected val log: LoggingAdapter = NoLogging
+
+  val routes = new Routes().routes
 
   import driver.api._
 
