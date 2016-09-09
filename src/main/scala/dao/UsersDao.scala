@@ -13,5 +13,4 @@ object UsersDao extends BaseDao{
     .update((newUser.userName, newUser.password, newUser.gender, newUser.age))
 
   def delete(userId: UserId): Future[Int] = usersTable.filter(_.id === userId).delete
-
 }

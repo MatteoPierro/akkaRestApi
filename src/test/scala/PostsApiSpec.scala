@@ -8,15 +8,17 @@ import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 class PostsApiSpec extends BaseServiceSpec with ScalaFutures{
   "Users posts api" should {
     "retrieve users posts list" in {
-      Get("/users/1/posts") ~> postsApi ~> check {
+      Get("/v1/users/1/posts") ~> routes ~> check {
         responseAs[JsArray] should be(List(testPosts.head).toJson)
       }
     }
+
     "retrieve post by id" in {
-      Get("/users/1/posts/1") ~> postsApi ~> check {
+      Get("/v1/users/1/posts/1") ~> routes ~> check {
         responseAs[JsObject] should be(testPosts.head.toJson)
       }
     }
+
     "create post properly" in {
       val newTitle = "newTitle"
       val newContent = "newContent"
@@ -26,13 +28,14 @@ class PostsApiSpec extends BaseServiceSpec with ScalaFutures{
           "userId" -> JsNumber(testUsers.head.id.get),
           "content" -> JsString(newContent)
         ).toString())
-      Post("/users/1/posts", requestEntity) ~> postsApi ~> check {
+      Post("/v1/users/1/posts", requestEntity) ~> routes ~> check {
         response.status should be(StatusCode.int2StatusCode(200))
-        Get("/users/1/posts") ~> postsApi ~> check {
+        Get("/v1/users/1/posts") ~> routes ~> check {
           responseAs[Seq[Post]] should have length 2
         }
       }
     }
+
     "update post by id" in {
       val newTitle = "UpdatedTitle"
       val requestEntity = HttpEntity(MediaTypes.`application/json`,
@@ -41,17 +44,18 @@ class PostsApiSpec extends BaseServiceSpec with ScalaFutures{
           "userId" -> JsNumber(testUsers.head.id.get),
           "content" -> JsString(testPosts.head.content)
         ).toString())
-      Put("/users/1/posts/1", requestEntity) ~> postsApi ~> check {
+      Put("/v1/users/1/posts/1", requestEntity) ~> routes ~> check {
         response.status should be(StatusCode.int2StatusCode(200))
         whenReady(PostsDao.findByUserIdAndId(1,1)) { result =>
           result.title should be(newTitle)
         }
       }
     }
+
     "delete post by id" in {
-      Delete("/users/1/posts/1") ~> postsApi ~> check {
+      Delete("/v1/users/1/posts/1") ~> routes ~> check {
         response.status should be(StatusCode.int2StatusCode(200))
-        Get("/users/1/posts") ~> postsApi ~> check {
+        Get("/v1/users/1/posts") ~> routes ~> check {
           responseAs[Seq[Post]] should have length 1
         }
       }
